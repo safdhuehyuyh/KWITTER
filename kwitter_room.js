@@ -1,21 +1,45 @@
+
 //ADD YOUR FIREBASE LINKS HERE
-// Your web app's Firebase configuration
-const config= {
-    apiKey: "AIzaSyB7vw9jeNCEkhMGlYGFPVQbzrjUev1SrEY",
-  authDomain: "kwitter-c5700.firebaseapp.com",
-  databaseURL: "https://kwitter-c5700-default-rtdb.firebaseio.com",
-  projectId: "kwitter-c5700",
-  storageBucket: "kwitter-c5700.appspot.com",
-  messagingSenderId: "861444040922",
-  appId: "1:861444040922:web:ef03eda039947753aa1de3"
+var firebaseConfig = {
+  apiKey: "AIzaSyAYxyoHExYjHd9CEiXLT2nHuzZQR9yHCOU",
+  authDomain: "nwitter-a8856.firebaseapp.com",
+  databaseURL: "https://nwitter-a8856.firebaseio.com",
+  projectId: "nwitter-a8856",
+  storageBucket: "nwitter-a8856.appspot.com",
+  messagingSenderId: "387772725307",
+  appId: "1:387772725307:web:9f23871632c7a0bb05c41e",
+  measurementId: "G-7HZSJVBGHE"
 };
 // Initialize Firebase
-firebase.initializeApp(config);
+firebase.initializeApp(firebaseConfig);
+username = localStorage.getItem("username");
+document.getElementById("user_name").innerHTML="Welcome " + username;
+function add_room(){
+      roomname=document.getElementById("room_name").value;
+      localStorage.setItem("roomname",roomname);
+      firebase.database().ref("/").child(roomname).update({
+            purpose : "adding roomname"
+      });
+      window.location="nwitterpage.html";
+}
 
 function getData() {firebase.database().ref("/").on('value', function(snapshot) {document.getElementById("output").innerHTML = "";snapshot.forEach(function(childSnapshot) {childKey  = childSnapshot.key;
-     Room_names = childKey;
-    //Start code
-
-    //End code
-    });});}
+   Room_names = childKey;
+  //Start code
+   console.log("roomname: "+ Room_names);
+   row="<div class='room_name' id="+Room_names+" onclick='redirecttoroomname(this.id)'>#"+Room_names+ "</div> <hr>";
+   document.getElementById("output").innerHTML+=row;
+  //End code
+  });});}
 getData();
+
+function redirecttoroomname(name){
+  console.log(name);
+  localStorage.setItem("roomname",name);
+  window.location="nwitterpage.html";
+}
+function logout(){
+  localStorage.removeItem("username");
+  localStorage.removeItem("roomname");
+  window.location= "index.html";
+}
